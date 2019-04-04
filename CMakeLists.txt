@@ -6,6 +6,16 @@ endif("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
 
 enable_testing()
 
+# MUST be done before call to 'project'
+get_cmake_property(vars CACHE_VARIABLES)
+foreach(var ${vars})
+  get_property(currentHelpString CACHE "${var}" PROPERTY HELPSTRING)
+    if("${currentHelpString}" MATCHES "No help, variable specified on the command line." OR "${currentHelpString}" STREQUAL "")
+        # message("${var} = [${${var}}]  --  ${currentHelpString}") # uncomment to see the variables being processed
+        list(APPEND CL_ARGS "-D${var}=${${var}}")
+    endif()
+endforeach()
+
 include(ExternalProject)
 project(pmwcas)
 
@@ -91,7 +101,7 @@ ExternalProject_Add(GTestExternal
   PREFIX "${GTEST_PREFIX}"
 
   # cmake arguments
-  CMAKE_ARGS -Dgtest_force_shared_crt=ON
+  CMAKE_ARGS -Dgtest_force_shared_crt=ON ${CL_ARGS}
 
   # Disable install step
   INSTALL_COMMAND ""
@@ -152,7 +162,8 @@ set(GFLAGS_INCLUDES "${GFLAGS_PREFIX}/src/GFlagsExternal-build/include")
 ExternalProject_Add(GFlagsExternal
   URL ${CMAKE_CURRENT_SOURCE_DIR}/third-party/gflags-2.1.2/gflags
   PREFIX "${GFLAGS_PREFIX}"
-
+  # cmake arguments
+  CMAKE_ARGS ${CL_ARGS}
   
   # Disable install step
   INSTALL_COMMAND ""
@@ -214,7 +225,7 @@ ExternalProject_Add(GLogExternal
   PREFIX "${GLOG_PREFIX}"
   DEPENDS GFlagsExternal
   # cmake arguments
-  CMAKE_ARGS -DCMAKE_PREFIX_PATH=${GFLAGS_LOCATION}
+  CMAKE_ARGS -DCMAKE_PREFIX_PATH=${GFLAGS_LOCATION} ${CL_ARGS}
 
   # Disable install step
   INSTALL_COMMAND ""
