@@ -256,9 +256,6 @@ set(GFLAGS_LIB GFlags)
 set(GLOG_LIB GLog)
 set(GTEST_LIB GTest)
 
-include_directories(${CMAKE_SOURCE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/src)
-
 ##################### PMDK ####################
 if(${PMEM_BACKEND} STREQUAL "PMDK")
   set(PMDK_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/pmdk")
@@ -378,8 +375,12 @@ else()
 endif()
 
 get_property(PMWCAS_SRC GLOBAL PROPERTY PMWCAS_SRC)
+
 add_library(pmwcas SHARED ${PMWCAS_SRC})
 target_link_libraries(pmwcas GTest GLog GFlags)
+target_include_directories(pmwcas PUBLIC ${CMAKE_SOURCE_DIR})
+target_include_directories(pmwcas PUBLIC ${CMAKE_SOURCE_DIR}/src)
+
 add_dependencies(pmwcas GFlags)
 add_dependencies(pmwcas GLog)
 add_dependencies(pmwcas GTest)
