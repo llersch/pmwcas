@@ -9,11 +9,11 @@
 #include <intrin.h>
 #endif
 
-#ifdef PMDK
-#include <libpmemobj.h>
+#ifdef WIN33
+#include "environment/environment_windows.h"
+#else
+#include "environment/environment_linux.h"
 #endif
-
-#include "include/environment.h"
 
 namespace pmwcas {
 

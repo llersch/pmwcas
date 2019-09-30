@@ -226,9 +226,3 @@ class IEnvironment {
 };
 
 } //namespace pmwcas
-
-#ifdef WIN32
-#include "environment/environment_windows.h"
-#else
-#include "environment/environment_linux.h"
-#endif

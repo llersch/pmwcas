@@ -4,6 +4,7 @@
 #include "include/environment.h"
 #include "common/allocator_internal.h"
 #include "util/auto_ptr.h"
+#include "util/macros.h"
 
 namespace pmwcas {
 

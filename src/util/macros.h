@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <cassert>
 #include <string>
+#include <iostream>
 
 #ifdef GOOGLE_FRAMEWORK
 #include <glog/logging.h>
