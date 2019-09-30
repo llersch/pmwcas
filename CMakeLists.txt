@@ -268,8 +268,10 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 ##################### PMDK ####################
 if(${PMEM_BACKEND} STREQUAL "PMDK")
   set(PMDK_LIB_PATH "/usr/local/lib" CACHE STRING "PMDK lib install path")
+  set(PMDK_INCLUDE_PATH "/usr/local/include" CACHE STRING "PMDK include install path")
   add_library(pmemobj SHARED IMPORTED)
   set_property(TARGET pmemobj PROPERTY IMPORTED_LOCATION ${PMDK_LIB_PATH}/libpmemobj.so)
+  set_property(TARGET pmemobj PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${PMDK_INCLUDE_PATH})
 endif()
 ##############################################
 
